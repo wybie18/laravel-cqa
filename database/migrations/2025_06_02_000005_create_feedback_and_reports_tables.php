@@ -72,7 +72,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('feedbackable_content_types', function (Blueprint $table) {
+        Schema::create('feedback_content_types', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->string('table_name');
@@ -82,7 +82,7 @@ return new class extends Migration
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('feedbackable_content_type_id')->constrained()->onDelete('restrict');
+            $table->foreignId('feedback_content_type_id')->constrained()->onDelete('restrict');
             $table->unsignedBigInteger('feedbackable_content_id');
             $table->foreignId('feedback_type_id')->constrained()->onDelete('restrict');
             $table->integer('rating')->nullable();
@@ -90,7 +90,7 @@ return new class extends Migration
             $table->boolean('is_anonymous')->default(false);
             $table->timestamps();
             
-            $table->index(['feedbackable_content_type_id', 'feedbackable_content_id']);
+            $table->index(['feedback_content_type_id', 'feedbackable_content_id']);
         });
 
         Schema::create('feedback_replies', function (Blueprint $table) {
@@ -132,7 +132,7 @@ return new class extends Migration
         Schema::dropIfExists('problems');
         Schema::dropIfExists('feedback_replies');
         Schema::dropIfExists('feedback');
-        Schema::dropIfExists('feedbackable_content_types');
+        Schema::dropIfExists('feedback_content_types');
         Schema::dropIfExists('feedback_types');
         Schema::dropIfExists('feedback_categories');
         Schema::dropIfExists('reports');
