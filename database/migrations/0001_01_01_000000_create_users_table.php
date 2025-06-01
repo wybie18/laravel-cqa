@@ -17,6 +17,14 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['user', 'admin'])->default('user');
+            
+            // Cached XP values for performance
+            $table->integer('total_xp')->default(0); // cached total XP
+            $table->integer('current_level')->default(1); // calculated from XP
+            $table->integer('xp_to_next_level')->default(100); // XP needed for next level
+            $table->timestamp('xp_last_updated')->nullable(); // when XP was last recalculated
+            
             $table->rememberToken();
             $table->timestamps();
         });
